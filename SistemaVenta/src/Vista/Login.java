@@ -5,6 +5,9 @@
  */
 package Vista;
 
+import Modelo.LoginDAO;
+import Modelo.login;
+
 /**
  *
  * @author Dell i7
@@ -14,11 +17,24 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
+    login lg = new login();
+    LoginDAO login = new LoginDAO();
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
-
+    public void validar() {
+        String correo = txtCorreo.getText();
+        String pass = String.valueOf(txtPass.getPassword());
+        if(!"".equals(correo) || !"".equals(pass)) {
+            lg = login.log(correo, pass);
+            if(lg.getCorreo()!=null && lg.getPass()!=null) {
+                Sistema sis = new Sistema();
+                sis.setVisible(true);
+                dispose();
+            }
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -88,6 +104,11 @@ public class Login extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(51, 51, 255));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Iniciar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jPanel3.setBackground(new java.awt.Color(102, 102, 102));
 
@@ -234,6 +255,10 @@ public class Login extends javax.swing.JFrame {
     private void txtPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPassActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        validar();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
