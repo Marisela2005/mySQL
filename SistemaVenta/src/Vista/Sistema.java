@@ -7,6 +7,8 @@ package Vista;
 
 import Modelo.Cliente;
 import Modelo.ClienteDao;
+import Modelo.Proveedor;
+import Modelo.ProveedorDao;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -20,6 +22,8 @@ public class Sistema extends javax.swing.JFrame {
     
     Cliente cl = new Cliente();
     ClienteDao client = new ClienteDao();
+    Proveedor pr = new Proveedor();
+    ProveedorDao prDao = new ProveedorDao();
     DefaultTableModel modelo = new DefaultTableModel();
     /**
      * Creates new form Sistema
@@ -1072,6 +1076,17 @@ public class Sistema extends javax.swing.JFrame {
 
     private void btnGuardarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarProveedorActionPerformed
         // TODO add your handling code here:
+        if(!"".equals(txtRucProveedor.getText()) || !"".equals(txtNombreProveedor.getText()) || !"".equals(txtTelefonoProveedor.getText()) || !"".equals(txtDireccionProveedor.getText()) || !"".equals(txtRazonProveedor.getText())) {
+            pr.setRuc(Integer.parseInt(txtRucProveedor.getText()));
+            pr.setNombre(txtNombreProveedor.getText());
+            pr.setTelefono(Integer.parseInt(txtTelefonoProveedor.getText()));
+            pr.setDireccion(txtDireccionProveedor.getText());
+            pr.setRazon(txtRazonProveedor.getText());
+            prDao.RegistrarProveedor(pr);
+            JOptionPane.showMessageDialog(null, "Proveedor registrado");
+        } else {
+            JOptionPane.showMessageDialog(null, "Los campos estan vacios");
+        }
     }//GEN-LAST:event_btnGuardarProveedorActionPerformed
 
     private void txtDesProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDesProActionPerformed
