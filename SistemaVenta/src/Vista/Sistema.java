@@ -7,9 +7,13 @@ package Vista;
 
 import Modelo.Cliente;
 import Modelo.ClienteDao;
+<<<<<<< HEAD
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+=======
+import javax.swing.JOptionPane;
+>>>>>>> 4ee2bd019d08c4956d91e8d1f23a02adcdfc7757
 
 /**
  *
@@ -19,7 +23,11 @@ public class Sistema extends javax.swing.JFrame {
     
     Cliente cl = new Cliente();
     ClienteDao client = new ClienteDao();
+<<<<<<< HEAD
     DefaultTableModel modelo = new DefaultTableModel();
+=======
+
+>>>>>>> 4ee2bd019d08c4956d91e8d1f23a02adcdfc7757
     /**
      * Creates new form Sistema
      */
@@ -1089,11 +1097,14 @@ public class Sistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGuardarClienteActionPerformed
 
+<<<<<<< HEAD
     private void TableClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableClienteMouseClicked
         // TODO add your handling code here:
         int fila = TableCliente.rowAtPoint(evt.getPoint());
     }//GEN-LAST:event_TableClienteMouseClicked
 
+=======
+>>>>>>> 4ee2bd019d08c4956d91e8d1f23a02adcdfc7757
     /**
      * @param args the command line arguments
      */
