@@ -7,6 +7,7 @@ package Vista;
 
 import Modelo.LoginDAO;
 import Modelo.login;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -32,6 +33,8 @@ public class Login extends javax.swing.JFrame {
                 Sistema sis = new Sistema();
                 sis.setVisible(true);
                 dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Correo o contraseña equivocada");
             }
         }
     }
