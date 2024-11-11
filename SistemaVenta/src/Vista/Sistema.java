@@ -15,8 +15,22 @@ import Modelo.ProveedorDao;
 import Modelo.Venta;
 import Modelo.VentaDao;
 import Reportes.Excel;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -52,6 +66,7 @@ public class Sistema extends javax.swing.JFrame {
         txtIdPro.setVisible(false);
         txtIdProveedor.setVisible(false);
         proDao.ConsultarProveedor(cbxProveedorPro);
+        pdf();
     }
 
     public void ListarCliente() {
@@ -1816,6 +1831,48 @@ public class Sistema extends javax.swing.JFrame {
         txtTelefonoCV.setText("");
         txtDireccionCV.setText("");
         txtRazonCV.setText("");
+    }
+    
+    private void pdf() {
+        try {
+            FileOutputStream archivo;
+            File file = new File("src/pdf/venta.pdf");
+            archivo = new FileOutputStream(file);
+            Document doc = new Document();
+            PdfWriter.getInstance(doc, archivo);
+            doc.open();
+            Image img = Image.getInstance("src/img/logo_pdf.png");
+            
+            Paragraph fecha = new Paragraph();
+            Font negrita = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.BLUE);
+            fecha.add(Chunk.NEWLINE);
+            Date date = new Date();
+            fecha.add("Factura: 1\n" + "Fecha: " + new SimpleDateFormat("dd-mm-yyyy").format(date) + "\n\n");
+            
+            PdfPTable Encabezado = new PdfPTable(4);
+            Encabezado.setWidthPercentage(100);
+            Encabezado.getDefaultCell().setBorder(0);
+            float[] ColumnaEncabezado = new float[] {20f,30f,70f,40f};
+            Encabezado.setWidths(ColumnaEncabezado);
+            Encabezado.setHorizontalAlignment(Element.ALIGN_LEFT);
+            
+            Encabezado.addCell(img);
+            
+            String ruc = "904830580";
+            String nom = "Vida informatico";
+            String tel = "5095322";
+            String dir = "Bolivia";
+            String ra = "Vida informatico";
+            
+            Encabezado.addCell("");
+            Encabezado.addCell("Ruc: "+ruc+"\nNombre: "+nom+"\nTelefono: "+tel+"\nDoreccion: "+dir+"\nRazon: "+ra);
+            Encabezado.addCell(fecha);
+            doc.add(Encabezado);
+            
+            doc.close();
+            archivo.close();
+        } catch (Exception e) {
+        }
     }
 }
 
