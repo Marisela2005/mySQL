@@ -38,6 +38,7 @@ public class Sistema extends javax.swing.JFrame {
     VentaDao VDao = new VentaDao();
     Detalle Dv = new Detalle();
     DefaultTableModel modelo = new DefaultTableModel();
+    DefaultTableModel tmp = new DefaultTableModel();
     int item;
     double Totalpagar = 0.00;
     /**
@@ -1262,6 +1263,9 @@ public class Sistema extends javax.swing.JFrame {
         // TODO add your handling code here:
         RegistrarVenta();
         RegistrarDetalle();
+        ActualizarStock();
+        LimpiarTableVenta();
+        LimpiarClienteVenta();
     }//GEN-LAST:event_btnGenerarVentaActionPerformed
 
     private void btnGuardarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarClienteActionPerformed
@@ -1506,7 +1510,7 @@ public class Sistema extends javax.swing.JFrame {
                 int stock = Integer.parseInt(txtStockDisponible.getText());
                 if(stock >= cant) {
                     item = item + 1;
-                    DefaultTableModel tmp = (DefaultTableModel) TableVenta.getModel();
+                    tmp = (DefaultTableModel) TableVenta.getModel();
                     for(int i = 0; i < TableVenta.getRowCount(); i++) {
                         if(TableVenta.getValueAt(i, 1).equals(txtDescripcionVenta.getText())) {
                             JOptionPane.showMessageDialog(null, "El producto ya esta registrado");
@@ -1783,8 +1787,35 @@ public class Sistema extends javax.swing.JFrame {
             Dv.setCod_pro(cod);
             Dv.setCantidad(cant);
             Dv.setPrecio(precio);
+            Dv.setId(id);
             VDao.RegistrarDetalle(Dv);
         }
+    }
+    
+    private void ActualizarStock() {
+        for (int i = 0; i < TableVenta.getRowCount(); i++){
+            String cod = TableVenta.getValueAt(i, 0).toString();
+            int cant = Integer.parseInt(TableVenta.getValueAt(i, 2).toString());
+            pro = proDao.BuscarPro(cod);
+            int StockActual = pro.getStock() - cant;
+            VDao.ActualizarStock(StockActual, cod);
+        }
+    }
+    
+    private void LimpiarTableVenta() {
+        tmp = (DefaultTableModel) TableVenta.getModel();
+        int fila = TableVenta.getRowCount();
+        for(int i = 0; i < fila; i++) {
+            tmp.removeRow(0);
+        }
+    }
+    
+    private void LimpiarClienteVenta() {
+        txtRucVenta.setText("");
+        txtNombreClienteVenta.setText("");
+        txtTelefonoCV.setText("");
+        txtDireccionCV.setText("");
+        txtRazonCV.setText("");
     }
 }
 
