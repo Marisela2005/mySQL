@@ -16,6 +16,7 @@ import Modelo.Proveedor;
 import Modelo.ProveedorDao;
 import Modelo.Venta;
 import Modelo.VentaDao;
+import Modelo.login;
 import Reportes.Excel;
 import Reportes.Grafico;
 import com.itextpdf.text.BaseColor;
@@ -73,6 +74,10 @@ public class Sistema extends javax.swing.JFrame {
      */
     public Sistema() {
         initComponents();
+    }
+
+    public Sistema(login priv) {
+        initComponents();
         this.setLocationRelativeTo(null);
         txtIdCliente.setVisible(false);
         txtIdVenta.setVisible(false);
@@ -80,9 +85,15 @@ public class Sistema extends javax.swing.JFrame {
         txtIdProveedor.setVisible(false);
         proDao.ConsultarProveedor(cbxProveedorPro);
         txtIdConfig.setVisible(false);
-        ListarConfig();
+        if(priv.getRol().equals("Asistente")) {
+            btnProductos.setEnabled(false);
+            btnProveedor.setEnabled(false);
+            LabelVendedor.setText(priv.getNombre());
+        } else {
+            LabelVendedor.setText(priv.getNombre());
+        }
     }
-
+    
     public void ListarCliente() {
         List<Cliente> ListarCl = client.ListarCliente();
         modelo = (DefaultTableModel) TableCliente.getModel();
