@@ -9,6 +9,7 @@ import Modelo.Cliente;
 import Modelo.ClienteDao;
 import Modelo.Config;
 import Modelo.Detalle;
+import Modelo.Eventos;
 import Modelo.Productos;
 import Modelo.ProductosDao;
 import Modelo.Proveedor;
@@ -56,6 +57,7 @@ public class Sistema extends javax.swing.JFrame {
     VentaDao VDao = new VentaDao();
     Detalle Dv = new Detalle();
     Config conf = new Config();
+    Eventos event = new Eventos();
     DefaultTableModel modelo = new DefaultTableModel();
     DefaultTableModel tmp = new DefaultTableModel();
     int item;
@@ -306,6 +308,11 @@ public class Sistema extends javax.swing.JFrame {
 
         btnConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/config.png"))); // NOI18N
         btnConfig.setText("Config");
+        btnConfig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfigActionPerformed(evt);
+            }
+        });
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/logo.png"))); // NOI18N
 
@@ -379,11 +386,19 @@ public class Sistema extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtCodigoVentaKeyPressed(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodigoVentaKeyTyped(evt);
+            }
         });
 
         txtDescripcionVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtDescripcionVentaActionPerformed(evt);
+            }
+        });
+        txtDescripcionVenta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDescripcionVentaKeyTyped(evt);
             }
         });
 
@@ -395,6 +410,9 @@ public class Sistema extends javax.swing.JFrame {
         txtCantidadVenta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtCantidadVentaKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadVentaKeyTyped(evt);
             }
         });
 
@@ -916,6 +934,12 @@ public class Sistema extends javax.swing.JFrame {
             }
         });
 
+        txtPrecioPro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioProKeyTyped(evt);
+            }
+        });
+
         cbxProveedorPro.setEditable(true);
 
         TableProducto.setModel(new javax.swing.table.DefaultTableModel(
@@ -1139,6 +1163,11 @@ public class Sistema extends javax.swing.JFrame {
 
         btnActualizarConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Actualizar (2).png"))); // NOI18N
         btnActualizarConfig.setText("ACTUALIZAR");
+        btnActualizarConfig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarConfigActionPerformed(evt);
+            }
+        });
 
         jLabel32.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel32.setText("DATOS DE LA EMPRESA");
@@ -1231,6 +1260,7 @@ public class Sistema extends javax.swing.JFrame {
 
     private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
         // TODO add your handling code here:
+        jTabbedPane1.setSelectedIndex(4);
     }//GEN-LAST:event_btnVentasActionPerformed
 
     private void txtStockDisponibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockDisponibleActionPerformed
@@ -1306,12 +1336,20 @@ public class Sistema extends javax.swing.JFrame {
 
     private void btnGenerarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarVentaActionPerformed
         // TODO add your handling code here:
-        RegistrarVenta();
-        RegistrarDetalle();
-        ActualizarStock();
-        pdf();
-        LimpiarTableVenta();
-        LimpiarClienteVenta();
+        if(TableVenta.getRowCount() > 0){
+            if(!"".equals(txtNombreClienteVenta.getText())) {
+                RegistrarVenta();
+                RegistrarDetalle();
+                ActualizarStock();
+                pdf();
+                LimpiarTableVenta();
+                LimpiarClienteVenta();
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe buscar un cliente");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay productos en la venta");
+        }
     }//GEN-LAST:event_btnGenerarVentaActionPerformed
 
     private void btnGuardarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarClienteActionPerformed
@@ -1625,6 +1663,48 @@ public class Sistema extends javax.swing.JFrame {
     private void txtIdConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdConfigActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIdConfigActionPerformed
+
+    private void txtCodigoVentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoVentaKeyTyped
+        // TODO add your handling code here:
+        event.numberKeyPress(evt);
+    }//GEN-LAST:event_txtCodigoVentaKeyTyped
+
+    private void txtDescripcionVentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionVentaKeyTyped
+        // TODO add your handling code here:
+        event.textKeyPress(evt);
+    }//GEN-LAST:event_txtDescripcionVentaKeyTyped
+
+    private void txtCantidadVentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadVentaKeyTyped
+        // TODO add your handling code here:
+        event.numberKeyPress(evt);
+    }//GEN-LAST:event_txtCantidadVentaKeyTyped
+
+    private void txtPrecioProKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioProKeyTyped
+        // TODO add your handling code here:
+        event.numberDecimalKeyPress(evt, txtPrecioPro);
+    }//GEN-LAST:event_txtPrecioProKeyTyped
+
+    private void btnActualizarConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarConfigActionPerformed
+        // TODO add your handling code here:
+        if (!"".equals(txtRucConfig.getText()) || !"".equals(txtNombreConfig.getText())|| !"".equals(txtTelefonoConfig.getText()) || !"".equals(txtDireccionConfig.getText()) || !"".equals(txtRazonConfig.getText())) {
+                conf.setRuc(Integer.parseInt(txtRucConfig.getText()));
+                conf.setNombre(txtNombreConfig.getText());
+                conf.setTelefono(Integer.parseInt(txtTelefonoConfig.getText()));
+                conf.setDireccion(txtDireccionConfig.getText());
+                conf.setRazon(txtRazonConfig.getText());
+                conf.setId(Integer.parseInt(txtIdConfig.getText()));
+                proDao.ModificarDatos(conf);
+                JOptionPane.showMessageDialog(null, "Datos de la empresa modificado");
+                ListarConfig();
+            } else {
+                JOptionPane.showMessageDialog(null, "Los campos estan vacios");
+            }
+    }//GEN-LAST:event_btnActualizarConfigActionPerformed
+
+    private void btnConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfigActionPerformed
+        // TODO add your handling code here:
+        jTabbedPane1.setSelectedIndex(5);
+    }//GEN-LAST:event_btnConfigActionPerformed
 
     /**
      * @param args the command line arguments
