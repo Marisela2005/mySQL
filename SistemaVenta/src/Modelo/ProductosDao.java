@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 
 
 
@@ -42,7 +43,8 @@ public class ProductosDao {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while(rs.next()) {
-                proveedor.addItem(rs.getString("nombre"));
+                String nombreProveedor = rs.getString("nombre");
+                proveedor.addItem(nombreProveedor);
             }
         } catch (SQLException e) {
             System.out.println(e.toString());
