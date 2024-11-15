@@ -5,6 +5,8 @@
  */
 package sistemaventa;
 
+import Vista.Registro;
+
 /**
  *
  * @author Dell i7
@@ -16,6 +18,8 @@ public class SistemaVenta {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Registro r = new Registro();
+        r.setVisible(true);
     }
     
 }
